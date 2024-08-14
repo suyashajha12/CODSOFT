@@ -1,0 +1,105 @@
+                                      //TASK 3
+                                   // ATM INTERFACE
+
+package javadevelopmentInternship;
+import java.util.Scanner;
+
+class BankAccount {
+    private double bal = 5000;     
+    private int pwd = 1234;
+
+    public boolean verifyPwd(int enteredPwd) {
+        return enteredPwd == pwd;
+    }
+
+    public void deposit(double money) {
+        bal += money;
+        System.out.println("Deposited money: " + money);
+        System.out.println("Total balance: " + bal);
+    }
+
+    public void withdraw(double money) {
+        if (money <= bal) {
+            bal -= money;
+            System.out.println("Withdrawn money: " + money);
+            System.out.println("Total balance: " + bal);
+        } else {
+            System.out.println("Insufficient balance");
+        }
+    }
+
+    public void checkBalance() {
+        System.out.println("Current balance: " + bal);
+    }
+}
+ class ATM {
+    private BankAccount b;
+    private Scanner s;
+
+    public ATM(BankAccount b) {
+        this.b = b;
+        this.s = new Scanner(System.in);
+    }
+
+    public void start() {
+        while (true) {
+            System.out.println("\nATM Menu:");
+            System.out.println("1. Deposit");
+            System.out.println("2. Withdraw");
+            System.out.println("3. Check balance");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = s.nextInt();
+
+            switch (choice) {
+                case 1:
+                    handleDeposit();
+                    break;
+                case 2:
+                    handleWithdraw();
+                    break;
+                case 3:
+                    b.checkBalance();
+                    break;
+                case 4:
+                    System.out.println("Thank you for using the ATM");
+                    return;
+                default:
+                    System.out.println("Invalid choice!! Please enter a valid option.");
+                    break;
+            }
+        }
+    }
+
+    private void handleDeposit() {
+        if (verifyPassword()) {
+            System.out.print("Enter amount to deposit: ");
+            double amount = s.nextDouble();
+            b.deposit(amount);
+        } else {
+            System.out.println("Incorrect password");
+        }
+    }
+
+    private void handleWithdraw() {
+        if (verifyPassword()) {
+            System.out.print("Enter amount to withdraw: ");
+            double amount = s.nextDouble();
+            b.withdraw(amount);
+        } else {
+            System.out.println("Incorrect password");
+        }
+    }
+
+    private boolean verifyPassword() {
+        System.out.print("Enter password: ");
+        int enteredPassword = s.nextInt();
+        return b.verifyPwd(enteredPassword);
+    }
+
+    public static void main(String[] args) {
+        BankAccount b = new BankAccount();
+        ATM atm = new ATM(b);
+        atm.start();
+    }
+}
