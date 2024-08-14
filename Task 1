@@ -1,0 +1,52 @@
+                                       //TASK 1
+
+package javadevelopmentInternship;
+import java.util.Scanner;
+import java.util.Random;
+
+public class GuessNum {
+
+    public static void main(String[] args) {
+        Scanner s = new Scanner(System.in);
+        Random r = new Random();
+
+        int rounds = 1;
+        boolean playagain = true;
+
+        while (playagain) {
+            int randomNumber = r.nextInt(100) + 1; 
+            int attempts = 0;
+            int maxattempts = 7; 
+            boolean guessedCorrectly = false;
+
+            System.out.println("Round " + rounds + ": Guess the number between 1 and 100. You have " + maxattempts + " attempts.");
+
+            while (attempts < maxattempts && !guessedCorrectly) {
+                System.out.print("Enter your guess: ");
+                int userGuess = s.nextInt();
+                attempts++;
+
+                if (userGuess == randomNumber) {
+                    guessedCorrectly = true;
+                    System.out.println("Congratulations! You have guessed the correct number in " + attempts + " attempts.");
+                } else if (userGuess > randomNumber) {
+                    System.out.println("Your guessed number is higher than the random number");
+                } else {
+                    System.out.println("Your guessed number is lower than the random number");
+                }
+            }
+
+            if (!guessedCorrectly) {
+                System.out.println("Sorry, you've used all " + maxattempts + " attempts. The correct number was " + randomNumber + ".");
+            }
+
+            System.out.print("Do you want to play another round? (yes/no): ");
+            String response = s.next();
+            playagain = response.equalsIgnoreCase("yes");
+            rounds++;
+        }
+
+        System.out.println("Thank you for playing. See you next time.");
+        
+    }
+}
